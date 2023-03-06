@@ -1,30 +1,38 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+const path = require('path')
 const uploadUser = require('./middlewares/ImageUpload')
 
 app.use(express.urlencoded({
   extended: true
 }))
 app.use(express.json())
+app.use(cors())
 
 app.get('/', (req, res) => {
-  res.send("teste")
+  res.json({
+    nome: 'teste',
+    test: "hhhh"
+  })
 })
 
-app.post('/image', (req, res) => {
-  // if(req.file) {
-  //   return res.json({
-  //     erro: false,
-  //     message: "upload realizado com sucesso"
-  //   })
-  // }
+app.get('/image', (req, res) => {
+  res.sendFile(__dirname + '/img/' + '1678135666867_IMG_20220903_130404_496 (1).jpg')
+})
 
-  // return res.status(400).json({
-  //   erro: true,
-  //   message: "Erro: Upload não realizado com sucesso"
-  // })
+app.post('/image', uploadUser.single('foto'), (req, res) => {
+  if(req.file) {
+    return res.json({
+      erro: false,
+      message: "upload realizado com sucesso"
+    })
+  }
 
-  res.json(req.body)
+  return res.status(400).json({
+    erro: true,
+    message: "Erro: Upload não realizado com sucesso"
+  })
 
 })
 
