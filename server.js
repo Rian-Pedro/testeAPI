@@ -7,6 +7,13 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 
+app.get('/', (req, res) => {
+  res.json({
+    nome: 'teste',
+    desc: 'tetete'
+  })
+})
+
 app.post('/image', (req, res) => {
   // if(req.file) {
   //   return res.json({
